@@ -13,20 +13,27 @@
             <li class="list-divider"></li>
 
             <li class="nav-small-cap">
-                <span class="hide-menu">Indikator</span></li>
+                <span class="hide-menu">Indikator</span>
+            </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
-                        <i data-feather="eye" class="feather-icon mx-1"></i>
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <i data-feather="database" class="feather-icon mx-1"></i>
                         <span class="hide-menu">Data Indikator</span>
                     </a>
+                    <ul aria-expanded="false" class="collapse first-level base-level-line">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('indikators.index') }}" aria-expanded="false">
+                                <span class="hide-menu">Indikator</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-
             <li class="list-divider"></li>
 
             <li class="nav-small-cap"><span class="hide-menu">User</span></li>
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
-                        <i data-feather="file-text" class="feather-icon"></i>
+                        <i data-feather="users" class="feather-icon"></i>
                         <span class="hide-menu">Admin </span>
                     </a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
@@ -40,7 +47,7 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
-                        <i data-feather="file-text" class="feather-icon"></i>
+                        <i data-feather="users" class="feather-icon"></i>
                         <span class="hide-menu">Dinas </span>
                     </a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">

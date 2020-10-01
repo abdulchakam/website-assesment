@@ -2,9 +2,9 @@
 
 @section('content')
 
-@if (session()->has('pesan'))
+@if (session('success_message'))
     <div class="alert alert-success">
-        {{ session()->get('pesan') }}
+        {{ session('success_message') }}
     </div>
 @endif
 <div class="row">
@@ -15,7 +15,7 @@
                     <h3 class="card-title mr-auto">Data User Dinas</h3>
 
                     @include('admin.components.modal')
-                    <button type="button" class="btn btn-gradient custom-radius d-none d-xl-block d-md-block" data-toggle="modal" data-target="#add-user">
+                    <button type="button" class="btn btn-gradient custom-radius d-none d-xl-block d-md-block btn-add-user" data-toggle="modal" data-target="#add-user">
                         <i data-feather="plus" class="feather-icon"></i>
                         Add Dinas
                     </button>
@@ -43,7 +43,7 @@
                                             alt="user" class="rounded-circle mx-auto d-block" width="40">
                                         </td>
                                         <td>
-                                            <a href="{{ route('users.show',['user' => $user->id]) }}"" class="btn-show" >
+                                            <a href="{{ route('users.show',['user' => $user->id]) }}" class="btn-show" >
                                                 <strong> {{ $user->name }} </strong>
                                                 <p class="text-monospace text-muted">{{ $user->email }}</p>
                                             </a>

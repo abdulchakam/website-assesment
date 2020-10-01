@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="add-user" class="modal fade" tabindex="-1" role="dialog"
+<div id="modal-add-user" class="modal fade" tabindex="-1" role="dialog"
 aria-labelledby="multiple-oneModalLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
@@ -9,43 +9,28 @@ aria-labelledby="multiple-oneModalLabel" aria-hidden="true">
                 aria-hidden="true">×</button>
         </div>
         <div class="modal-body ">
-            <form method="POST" action="{{ route('users.store') }}">
-                @csrf
-
+            <form id="form-add-user">
                 <div class="form-group row mx-auto">
                     <div class="col-md-12">
                         <label for="name">Name</label>
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
-                        @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <span class="invalid-feedback" id="name_error"></span>
                     </div>
                 </div>
 
                 <div class="form-group row mx-auto">
                     <div class="col-md-12">
                     <label for="username">Username</label>
-                        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}"  autocomplete="username" autofocus>
-                        @error('username')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}"  autocomplete="username" autofocus>
+                            <span class="invalid-feedback" id="username_error"></span>
                     </div>
                 </div>
 
                 <div class="form-group row mx-auto">
                     <div class="col-md-12">
                     <label for="email">Email</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email">
-
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" autocomplete="email">
+                            <span class="invalid-feedback"id="email_error"></span>
                     </div>
                 </div>
 
@@ -53,7 +38,7 @@ aria-labelledby="multiple-oneModalLabel" aria-hidden="true">
 
                     <div class="col-md-12">
                     <label for="role">Role</label>
-                        <select id="my-select" class="form-control" name="role" id="role">
+                        <select id="role" class="form-control" name="role" id="role">
                             <option disabled selected>Choose one!</option>
                             <option value="user"
                                 @if (old('role') == 'user')
@@ -68,6 +53,7 @@ aria-labelledby="multiple-oneModalLabel" aria-hidden="true">
                                     selected
                                 @endif>Super Admin</option>
                         </select>
+                        <span class="invalid-feedback"id="role_error"></span>
                     </div>
                 </div>
 
@@ -75,25 +61,22 @@ aria-labelledby="multiple-oneModalLabel" aria-hidden="true">
                     <div class="col-6">
                         <div class="form-group row mx-auto">
                             <label for="password">{{ __('Password') }}</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="password" type="password" class="form-control" name="password" autocomplete="new-password">
+                                <span class="invalid-feedback"id="password_error"></span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group row mx-auto">
-                            <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
+                            <label for="password_confirm">{{ __('Confirm Password') }}</label>
+                            <input id="password_confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
+                            <span class="invalid-feedback"id="password_confirm_error"></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary px-5">
-                        Add
+                    <button type="button" class="btn btn-primary px-5 btn-save-user">
+                        Tambah
                     </button>
                 </div>
 
@@ -114,7 +97,7 @@ aria-labelledby="multiple-oneModalLabel" aria-hidden="true">
 </div><!-- /.modal -->
 
 
-<div id="modal-edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="modal-edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 

@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if (session('success_message'))
+    <div class="alert alert-success">
+        {{ session('success_message') }}
+    </div>
+@endif
+
 @include('admin/components/modal')
 <!-- Row -->
 <div class="row">
@@ -31,20 +37,20 @@
                     </div>
                 </div>
             </div>
-
             <div class="d-flex justify-content-center mt-3">
                 <div class="button-delete">
-                    <form action="{{ route('users.destroy',['user'=> $user->id]) }}" method="post">
-                        @method("DELETE")
-                        @csrf
-                        <button type="sumbit" class="btn btn-outline-danger btn-rounded btn-sm px-4 mx-2 d-none d-xl-block d-md-block">
+                    {{-- <form action="{{ route('users.destroy',['user'=> $user->id]) }}" method="post" id="action-delete-user">
+                        @method('DELETE')
+                        @csrf --}}
+                        <button type="button" class="btn btn-outline-danger btn-rounded btn-sm px-4 mx-2 d-none d-xl-block d-md-block"
+                                data-id="{{ $user->id }}" data-nama="{{ $user->name }}" data-role="{{ $user->role }}" id="btn-hapus-user">
                             <i class="fas fa-trash"></i> Delete
                         </button>
                         {{-- Visible mobile Only --}}
                         <button type="sumbit" class="btn btn-outline-danger btn-circle btn-sm mx-2 d-block d-md-none">
                             <i class="fas fa-trash"></i>
                         </button>
-                    </form>
+                    {{-- </form> --}}
                 </div>
 
                 <div class="button-edit">

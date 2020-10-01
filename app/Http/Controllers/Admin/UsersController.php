@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
+use Spatie\Permission\Contracts\Role as ContractsRole;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $users = User::whereIn('role',['admin','super admin'])->get();
@@ -25,7 +32,7 @@ class UsersController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+
     }
 
     public function store(UserRequest $request)
@@ -39,22 +46,27 @@ class UsersController extends Controller
             'password'  =>  Hash::make($validateData['password']),
         ]);
 
+
         if($validateData['role']=='admin'){
+            $user->givePermissionTo('read only');
             $user->assignRole('admin');
             return redirect()->route('users.index')
-                    ->with('pesan',"User {$validateData['name']} Berhasil ditambahkan!" );
+                    ->with('toast_success',"User {$validateData['name']} berhasil ditambahkan");
 
         }elseif($validateData['role']=='super admin'){
+            $user->givePermissionTo('full control');
             $user->assignRole('super admin');
             return redirect()->route('users.index')
-                    ->with('pesan',"User {$validateData['name']} Berhasil ditambahkan!" );
+                    ->with('toast_success',"User {$validateData['name']} berhasil ditambahkan");
 
         }else{
             $user->assignRole('user');
             return redirect()->route('users-dinas')
-                    ->with('pesan',"User {$validateData['name']} Berhasil ditambahkan!" );
+                    ->with('toast_success',"User {$validateData['name']} berhasil ditambahkan");
         }
+
     }
+
 
     public function show(User $user)
     {
@@ -79,34 +91,30 @@ class UsersController extends Controller
 
         if($validateData['role']=='admin'){
             $user->syncRoles('admin');
+            $user->syncPermissions('read only');
             $user->update($validateData);
             return redirect()->back()
-                        ->with('pesan',"User {$validateData['name']} Berhasil diUpdate!" );
+                        ->with('toast_success',"User {$validateData['name']} berhasil diperbarui");
 
         }elseif($validateData['role']=='super admin'){
             $user->syncRoles('super admin');
+            $user->syncPermissions('full control');
             $user->update($validateData);
             return redirect()->back()
-                        ->with('pesan',"User {$validateData['name']} Berhasil diUpdate!" );
+                        ->with('toast_success',"User {$validateData['name']} berhasil diperbarui");
 
         }else{
             $user->syncRoles('user');
             $user->update($validateData);
             return redirect()->back()
-                        ->with('pesan',"User {$validateData['name']} Berhasil diUpdate!" );
+                        ->with('toast_success',"User {$validateData['name']} berhasil diperbarui");
         }
     }
 
     public function destroy(User $user)
     {
+        $user->Indikators()->detach();
         $user->delete();
-        if ($user['role'] == 'user') {
-            return redirect()->route('users-dinas')
-            ->with('pesan',"User $user->name berhasil dihapus");
-        } else {
-            return redirect()->route('users.index')
-            ->with('pesan',"User $user->name berhasil dihapus");
-        }
     }
 
 }

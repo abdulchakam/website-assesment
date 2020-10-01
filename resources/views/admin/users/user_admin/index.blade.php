@@ -1,10 +1,10 @@
 @extends('admin.index')
 
 @section('content')
-@if (session()->has('pesan'))
-<div class="alert alert-success">
-    {{ session()->get('pesan') }}
-</div>
+@if (session('success_message'))
+    <div class="alert alert-success">
+        {{ session('success_message') }}
+    </div>
 @endif
 <div class="row">
 <div class="col-12">
@@ -14,11 +14,11 @@
                 <h3 class="card-title mr-auto">Data User Admin</h3>
 
                 @include('admin.components.modal')
-                <button type="button" class="btn btn-gradient custom-radius d-none d-xl-block d-md-block" data-toggle="modal" data-target="#add-user">
+                <button type="button" class="btn btn-gradient custom-radius d-none d-xl-block d-md-block btn-add-user" data-toggle="modal" data-target="#add-user">
                     <i data-feather="plus" class="feather-icon"></i>
                     Add Admin
                 </button>
-                <button type="button" class="btn btn-gradient btn-circle d-block d-md-none" data-toggle="modal" data-target="#add-user">
+                <button type="button" class="btn btn-gradient btn-circle d-block d-md-none btn-add" data-toggle="modal" data-target="#add-user">
                     <i data-feather="plus" class="feather-icon"></i>
                 </button>
             </div>

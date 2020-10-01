@@ -1,13 +1,13 @@
-<div class="modal-header border-0">
+<form method="POST" action="{{ route('users.update',['user' => $user->id]) }}">
+    @method('PATCH')
+    @csrf
+<div class="modal-header">
+    <h5 class="modal-title text-capitalize"><strong>Edit data {{ $user->name  }}</strong></h5>
     <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
         <i class="fas fa-times-circle text-light"></i>
     </button>
 </div>
 <div class="modal-body">
-    <form method="POST" action="{{ route('users.update',['user' => $user->id]) }}">
-        @method('PATCH')
-        @csrf
-
         <div class="form-group row mx-auto">
             <div class="col-md-12">
                 <label for="name">Name</label>
@@ -66,11 +66,10 @@
                 </select>
             </div>
         </div>
-
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary px-5">
-                Update
-            </button>
-        </div>
-    </form>
 </div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary px-5">
+        Update
+    </button>
+</div>
+</form>
