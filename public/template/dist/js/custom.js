@@ -376,62 +376,71 @@ $(function () {
 
 
     $('.btn-hapus-domain').click(function(){
-        let id = $('#domain_id').val();
+        const id = $('#domain_id').val();
         console.log(id);
-        $('#modal-hapus-domain').modal('show');
 
-        $('#batal-domain').click(function(){
-            $('#modal-hapus-domain').modal('hide');
-        })
+        Swal.fire({
+            title: 'Anda Yakin Hapus?',
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:`/domains/${id}`,
+                    method:'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(){
+                        console.log('Berhasil dihapus');
+                        window.location.assign('/indikators/create');
 
-        $('#hapus-domain').click(function(){
-            $.ajax({
-                url:`/domains/${id}`,
-                method:'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(){
-                    console.log('Berhasil dihapus');
-                    $('#modal-hapus-domain').modal('hide');
-                    window.location.assign('/indikators/create');
-
-                },
-                error: function(error){
-                    console.log(error);
-                }
-            })
-        })
-    })
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
 
     $('.btn-hapus-aspek').click(function(){
         let id = $('#aspek_id').val();
         console.log(id);
-        $('#modal-hapus-aspek').modal('show');
 
-        $('#batal-aspek').click(function(){
-            $('#modal-hapus-aspek').modal('hide');
-        })
+        Swal.fire({
+            title: 'Anda Yakin Hapus?',
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:`/aspeks/${id}`,
+                    method:'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(){
+                        console.log('Berhasil dihapus');
+                        $('#modal-hapus-aspek').modal('hide');
+                        window.location.assign('/indikators/create');
 
-        $('#hapus-aspek').click(function(){
-            $.ajax({
-                url:`/aspeks/${id}`,
-                method:'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(){
-                    console.log('Berhasil dihapus');
-                    $('#modal-hapus-aspek').modal('hide');
-                    window.location.assign('/indikators/create');
-
-                },
-                error: function(error){
-                    console.log(error);
-                }
-            })
-        })
-    })
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
 
 
     $('.btn-hapus-indikator').click(function(){
