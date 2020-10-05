@@ -86,11 +86,14 @@
     {{-- Sweetalert --}}
     <script src="{{ asset('template/dist/js/sweetalert2.all.min.js') }}"></script>
 
-    <script type="text/javascript">
+
+    <script>
+        // CKEditor
         $(document).ready(function () {
-            $('.ckeditor').ckeditor();
+            CKEDITOR.replace('petunjuk');
         });
     </script>
+
 
     <script>
         $(document).ready(function() {
