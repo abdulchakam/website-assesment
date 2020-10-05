@@ -62,7 +62,9 @@
                         <select id="domain_id" class="form-control @error('domain_id') is-invalid @enderror" name="domain_id">
                             <option disabled selected>=== Pilih Domain ===</option>
                             @foreach ($domains as $domain)
-                                <option value="{{ $domain->id }}">{{ $domain->nama_domain }}</option>
+                                <option value="{{ $domain->id }}">
+                                    {{ $domain->nama_domain }}
+                                </option>
                             @endforeach
                         </select>
                         <input type="text" id="ket_domain" class="form-control mt-2" readonly>
@@ -231,7 +233,7 @@
         <div class="container">
             <div class="form-group">
                 <label for="petunjuk">Petunjuk</label>
-                <textarea id="petunjuk" class="form-control ckeditor @error('level5') is-invalid @enderror" name="petunjuk"></textarea>
+                <textarea id="petunjuk" class="form-control  @error('level5') is-invalid @enderror" name="petunjuk"></textarea>
                 @error('petunjuk')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

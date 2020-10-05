@@ -30,7 +30,7 @@ class AspekController extends Controller
         ]);
 
         Aspek::create($validateData);
-        return redirect()->back();
+        return response()->json($request);
     }
 
     public function show($id)
