@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Aspek, Domain, Indikator,User};
+use App\{Aspek, Domain, Indikator, Rekap, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,18 +13,23 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
 
         $user = Auth::user();
         $user_id = $user->id;
-        $aspek = Aspek::get();
-        $domain = Domain::get();
 
         $user = User::find($user_id);
         $indikators= $user->indikators()->orderBy('nama_indikator', 'asc')->paginate(1);
 
-        return view('home',['indikators' => $indikators,'aspek' => $aspek, 'domain' => $domain]);
+        if ($request->ajax()) {
+            return view('data_home',['indikators' => $indikators]);
+        }
+        return view('home',['indikators' => $indikators]);
+    }
+
+    public function fileUpload (){
+
     }
 
 }

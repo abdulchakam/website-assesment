@@ -102,20 +102,22 @@
             </div>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="d-flex justify-content-center">
-                    <a href="{{ route('indikators.edit',['indikator' => $indikator->id]) }}" class="btn btn-sm btn-rounded btn-outline-primary mr-3 px-4">
-                        <i class="fa fa-edit"></i>
-                        Edit
-                    </a>
-                    <button class="btn btn-sm btn-rounded btn-outline-danger ml-3 px-4 btn-hapus-indikator" data-id="{{ $indikator->id }}">
-                        <i class="fa fa-trash"></i>
-                        Hapus
-                    </button>
+        @role('super admin')
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-center">
+                        <a href="{{ route('indikators.edit',['indikator' => $indikator->id]) }}" class="btn btn-sm btn-rounded btn-outline-primary mr-3 px-4">
+                            <i class="fa fa-edit"></i>
+                            Edit
+                        </a>
+                        <button class="btn btn-sm btn-rounded btn-outline-danger ml-3 px-4 btn-hapus-indikator" data-id="{{ $indikator->id }}">
+                            <i class="fa fa-trash"></i>
+                            Hapus
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endrole
     </div>
 </div>
 

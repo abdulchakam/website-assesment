@@ -13,17 +13,30 @@
             <li class="list-divider"></li>
 
             <li class="nav-small-cap">
-                <span class="hide-menu">Indikator</span>
+                <span class="hide-menu">Data</span>
             </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
                         <i data-feather="database" class="feather-icon mx-1"></i>
-                        <span class="hide-menu">Data Indikator</span>
+                        <span class="hide-menu">Indikator</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level base-level-line">
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ route('indikators.index') }}" aria-expanded="false">
-                                <span class="hide-menu">Indikator</span>
+                                <span class="hide-menu">Lihat Indikator</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+                        <i data-feather="database" class="feather-icon mx-1"></i>
+                        <span class="hide-menu">Rekap</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level base-level-line">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ route('rekaps.index') }}" aria-expanded="false">
+                                <span class="hide-menu">Lihat Rekap</span>
                             </a>
                         </li>
                     </ul>

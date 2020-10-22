@@ -101,11 +101,6 @@
                             @endforeach
                         </select>
                         <input type="text"  id="ket_aspek" class="form-control mt-2" readonly>
-                                    @error('aspek_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-5">
@@ -270,6 +265,15 @@
 </div>
 </form>
 @endsection
+
+@push('script')
+    <script>
+        // CKEditor
+        $(document).ready(function () {
+            CKEDITOR.replace('petunjuk');
+        });
+    </script>
+@endpush
 
 
 

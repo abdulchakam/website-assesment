@@ -14,15 +14,17 @@
                     <h3 class="card-title mr-auto">Indikator</h3>
 
                     @include('admin.components.modal')
-                    <a class="sidebar-link btn btn-gradient custom-radius d-none d-xl-block d-md-block"
-                        href="{{ route('indikators.create') }}" aria-expanded="false">
-                        <i data-feather="plus" class="feather-icon"></i>
-                        <span class="hide-menu">Buat Indikator</span>
-                    </a>
-                    <a class="sidebar-link btn btn-gradient btn-circle d-block d-md-none btn-add"
-                        href="{{ route('indikators.create') }}" aria-expanded="false">
-                        <i data-feather="plus" class="feather-icon"></i>
-                    </a>
+                    @role('super admin')
+                        <a class="sidebar-link btn btn-gradient custom-radius d-none d-xl-block d-md-block"
+                            href="{{ route('indikators.create') }}" aria-expanded="false">
+                            <i data-feather="plus" class="feather-icon"></i>
+                            <span class="hide-menu">Buat Indikator</span>
+                        </a>
+                        <a class="sidebar-link btn btn-gradient btn-circle d-block d-md-none btn-add"
+                            href="{{ route('indikators.create') }}" aria-expanded="false">
+                            <i data-feather="plus" class="feather-icon"></i>
+                        </a>
+                    @endrole
                 </div>
                 <div class="table-responsive">
                 <table table id="zero_config" class="table table-striped no-wrap table-sm table-bordered">
