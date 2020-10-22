@@ -17,7 +17,11 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link href="{{ asset('template/dist/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/iziToast.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -50,11 +54,11 @@
                             @endif --}}
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre data-target="#logout">
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="logout">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
                                         <div class="text-danger">
@@ -77,5 +81,15 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset('template/assets/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('template/assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('template/assets/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bootstrap-fileinput/js/fileinput.js') }}" ></script>
+    <script src="{{ asset('bootstrap-fileinput/js/locales/id.js') }}" ></script>
+    <script src="{{ asset('bootstrap-fileinput/themes/fas/theme.min.js') }}" ></script>
+    <script src="{{ asset('js/iziToast.min.js') }}" ></script>
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}" ></script>
+    @stack('script')
 </body>
 </html>

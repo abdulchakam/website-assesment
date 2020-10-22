@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
@@ -18,7 +19,8 @@
     <link href="{{ asset('template/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="{{ asset('template/dist/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('template/dist/css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/iziToast.min.css') }}" rel="stylesheet">
     <!-- SweetAlert -->
 
 </head>
@@ -81,19 +83,16 @@
 
     {{-- ckeditor --}}
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-    <script src="{{ asset('template/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/select2.full.min.js') }}"></script>
 
     {{-- Sweetalert --}}
-    <script src="{{ asset('template/dist/js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}" ></script>
 
+{{-- Jquery Validate --}}
+<script src="{{ asset('js/jquery.validate.min.js') }}" ></script>
 
-    <script>
-        // CKEditor
-        $(document).ready(function () {
-            CKEDITOR.replace('petunjuk');
-        });
-    </script>
-
+{{-- IziToast --}}
+<script src="{{ asset('js/iziToast.min.js') }}" ></script>
 
     <script>
         $(document).ready(function() {
@@ -103,7 +102,9 @@
         });
     </script>
 
-    @include('sweetalert::alert',['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+    @include('sweetalert::alert')
+
+    @stack('script')
 </body>
 
 </html>

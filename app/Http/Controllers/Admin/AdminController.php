@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -16,7 +15,7 @@ class AdminController extends Controller
     public function index()
     {
         $user = Auth::user();
-        Alert::success('Selamat Datang '.$user->name);
+        Alert::success('Selamat Datang </br>'.$user->name);
         return view('admin.index');
     }
 }

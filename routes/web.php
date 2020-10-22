@@ -16,13 +16,18 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home')->middleware('role:user');
 Route::get('/dashboard', 'Admin\AdminController@index')->middleware('role:admin|super admin')->name('dashboard');
+
 Route::resource('users', 'Admin\UsersController');
+Route::get('/users-dinas','Admin\UsersController@usersDinas')->name('users-dinas');
+
 Route::resource('indikators', 'Admin\IndikatorsController');
 Route::resource('domains', 'Admin\DomainController');
 Route::resource('aspeks', 'Admin\AspekController');
-
 Route::get('/findKetDomain', 'Admin\DomainController@findKet');
 Route::get('/findKetAspek', 'Admin\AspekController@findKet');
-Route::get('/domainEdit', 'Admin\DomainController@domainEdit');
-Route::get('/users-dinas','Admin\UsersController@usersDinas')->name('users-dinas');
-Route::post('/upload}', 'Admin\UsersController@up')->name('upload-photo');
+
+
+Route::resource('rekaps', 'RekapController');
+Route::post('/upload', 'RekapController@fileUpload');
+Route::get('/download-file/{file}', 'RekapController@downloadFile');
+Route::delete('/delete-file/{file}', 'RekapController@deleteFile');

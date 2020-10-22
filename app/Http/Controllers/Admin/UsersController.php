@@ -7,10 +7,6 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
-use Illuminate\Support\Facades\Redirect;
-use Spatie\Permission\Contracts\Role as ContractsRole;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -18,16 +14,42 @@ class UsersController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index()
+    public function index(Request $request)
     {
         $users = User::whereIn('role',['admin','super admin'])->get();
-        return view('admin.users.user_admin.index', ['users' => $users]);
+        if($request->ajax()){
+            return datatables()->of($users)
+                    ->editColumn('created_at', function(User $user){
+                        return $user->created_at->format('d, M Y');
+                    })->addcolumn('aksi', function($data){
+                        $button = '<div class="text-center">';
+                        $button .= '<button  data-id="'.$data->id.'" class="edit btn btn-sm shadow-sm bg-white rounded"><i class="fas fa-edit text-primary"></i></button>';
+                        $button .= '<button type="button" name="delete" data-nama="'.$data->name.'" id="'.$data->id.'" class="delete btn btn-sm shadow-sm bg-white rounded"><i class="far fa-trash-alt text-danger"></i></button>';
+                        $button .= '</div>';
+                        return $button;
+                    })->rawColumns(['aksi'])->make(true);
+        }
+
+        return view('admin.users.user_admin.index');
     }
 
-    public function usersDinas()
+    public function usersDinas(Request $request)
     {
         $users = User::whereIn('role',['user'])->get();
-        return view('admin.users.user_dinas.index', ['users' => $users]);
+        if($request->ajax()){
+            return datatables()->of($users)
+                    ->editColumn('created_at', function(User $user){
+                        return $user->created_at->format('d, M Y');
+                    })->addcolumn('aksi', function($data){
+                        $button = '<div class="text-center">';
+                        $button .= '<button data-id="'.$data->id.'" class="edit btn btn-sm shadow-sm bg-white rounded mr-2"><i class="far fa-edit text-primary"></i></button>';
+                        $button .= '<button type="button" name="delete" data-nama="'.$data->name.'" id="'.$data->id.'" class="delete btn btn-sm shadow-sm bg-white rounded"><i class="far fa-trash-alt text-danger"></i></button>';
+                        $button .= '</div>';
+                        return $button;
+                    })->rawColumns(['aksi'])->make(true);
+        }
+
+        return view('admin.users.user_dinas.index');
     }
 
     public function create()
@@ -43,26 +65,21 @@ class UsersController extends Controller
             'username'  =>  $validateData['username'],
             'email'     =>  $validateData['email'],
             'role'      =>  $validateData['role'],
-            'password'  =>  Hash::make($validateData['password']),
+            'password'  =>  Hash::make($validateData['password'])
         ]);
 
 
         if($validateData['role']=='admin'){
-            $user->givePermissionTo('read only');
             $user->assignRole('admin');
-            return redirect()->route('users.index')
-                    ->with('toast_success',"User {$validateData['name']} berhasil ditambahkan");
+            return response()->json($user);
 
         }elseif($validateData['role']=='super admin'){
-            $user->givePermissionTo('full control');
             $user->assignRole('super admin');
-            return redirect()->route('users.index')
-                    ->with('toast_success',"User {$validateData['name']} berhasil ditambahkan");
+            return response()->json($user);
 
         }else{
             $user->assignRole('user');
-            return redirect()->route('users-dinas')
-                    ->with('toast_success',"User {$validateData['name']} berhasil ditambahkan");
+            return response()->json($user);
         }
 
     }
@@ -74,9 +91,12 @@ class UsersController extends Controller
     }
 
 
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('admin.users.edit', ['user' => $user]);
+        $where = array('id' => $id);
+        $post  = User::where($where)->first();
+
+        return response()->json($post);
     }
 
 
@@ -91,23 +111,21 @@ class UsersController extends Controller
 
         if($validateData['role']=='admin'){
             $user->syncRoles('admin');
-            $user->syncPermissions('read only');
             $user->update($validateData);
-            return redirect()->back()
-                        ->with('toast_success',"User {$validateData['name']} berhasil diperbarui");
+            return response()->json($validateData);
+
 
         }elseif($validateData['role']=='super admin'){
             $user->syncRoles('super admin');
-            $user->syncPermissions('full control');
             $user->update($validateData);
-            return redirect()->back()
-                        ->with('toast_success',"User {$validateData['name']} berhasil diperbarui");
+            return response()->json($validateData);
+
 
         }else{
             $user->syncRoles('user');
             $user->update($validateData);
-            return redirect()->back()
-                        ->with('toast_success',"User {$validateData['name']} berhasil diperbarui");
+            return response()->json($validateData);
+
         }
     }
 

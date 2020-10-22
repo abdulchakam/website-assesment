@@ -33,6 +33,7 @@ class DomainController extends Controller
         ]);
 
         Domain::create($validateData);
+        return response()->json($validateData);
     }
 
 
@@ -45,7 +46,6 @@ class DomainController extends Controller
     public function edit(Domain $domain)
     {
         return response($domain);
-
     }
 
 
@@ -55,11 +55,16 @@ class DomainController extends Controller
             'nama_domain'   => $request->nama_domain,
             'ket_domain'    => $request->ket_domain,
         ]);
+
+        return response()->json($request);
+
     }
 
     public function destroy(Domain $domain)
     {
         $domain->delete();
+        return response()->json($domain);
+
     }
 
     public function findKet(Request $request)

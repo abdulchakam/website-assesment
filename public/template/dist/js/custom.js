@@ -1,4 +1,13 @@
 $(function () {
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    });
+
     "use strict";
 
     // Feather Icon Init Js
@@ -73,50 +82,7 @@ $(function () {
         $(this).next('.custom-file-label').html(fileName);
     })
 
-    $('.btn-add-user').on('click', function(){
-        $('#modal-add-user').modal('show');
 
-        $('.btn-save-user').click(function(){
-            const form_data = $('#form-add-user').serialize();
-            const a = $(this).parent();
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                method:'POST',
-                url:`/users`,
-                data:form_data,
-                success: function(data){
-                    $('#modal-add-user').modal('hide');
-                    if ($('#role').val() == 'user') {
-                        window.location.assign('/users-dinas');
-                    } else {
-                        window.location.assign('/users');
-                    }
-                },
-                error:function(error){
-                    const data = error.responseJSON;
-
-                    $('#name').addClass('is-invalid');
-                    $('#name_error').text(data.errors.name);
-                    $('#username').addClass('is-invalid')
-                    $('#username_error').text(data.errors.username);
-                    $('#modal-add-domain').modal('show');
-                    $('#email').addClass('is-invalid');
-                    $('#email_error').text(data.errors.email);
-                    $('#role').addClass('is-invalid')
-                    $('#role_error').text(data.errors.role);
-                    $('#modal-add-domain').modal('show');
-                    $('#password').addClass('is-invalid');
-                    $('#password_error').text(data.errors.password);
-                    $('#password_confirm').addClass('is-invalid')
-                    $('#password_confirm_error').text(data.errors.password_confirmation);
-                    $('#modal-add-domain').modal('show');
-                }
-            });
-        });
-    });
 
 
     $('.btn-edit').on('click', function(){
@@ -135,117 +101,66 @@ $(function () {
         })
     });
 
-    $('#btn-hapus-user').on('click', function(event){
-        event.preventDefault();
-        const id = $('#btn-hapus-user').data('id');
-        const nama = $('#btn-hapus-user').data('nama');
-        const role = $('#btn-hapus-user').data('role');
 
-        Swal.fire({
-            title: 'Anda Yakin hapus user </br>'+nama+'?',
-            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type:'DELETE',
-                    url:`/users/${id}`,
-                    success:function(){
-                        console.log('data sudah berhasil dihapus');
-                        Swal.fire(
-                            'Berhasil dihapus!',
-                            'User '+nama+' terhapus',
-                            'success'
-                        )
 
-                        console.log(role);
-                        if (role === 'user') {
-                            window.location.assign('/users-dinas');
-                        } else {
-                            window.location.assign('/users');
-                        }
-                    },
-                    error:function(error){
-                        console.log(error);
-                    }
-                });
-            }
-        })
-    })
-
+    // JAVASCRIPT DOMAIN
+    // Tambah Domain
     $('.btn-add-domain').click(function(){
-        $('#modal-add-domain').modal('show');
+        $('#btn-simpan-domain').val("simpan").html('Simpan');
+        $('#id_domain').val('');
+        $('#form-tambah-domain').trigger("reset");
+        $('#modal-judul').html("Tambah Domain");
+        $('#modal-tambah-domain').modal('show');
 
-        $('.btn-save-domain').click(function(e){
+        $('#btn-simpan-domain').click(function(e){
             e.preventDefault();
-            const form_data = $('#form-add-domain').serialize();
+            const form_data = $('#form-tambah-domain').serialize();
             const a = $(this).parent();
 
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
                 method:'POST',
                 url:`/domains`,
                 data:form_data,
                 success: function(data){
-                    $('#modal-add-domain').modal('hide');
-                    window.location.assign('/indikators/create');
+                    $('#modal-tambah-domain').modal('hide');
+
+                    iziToast.show({
+                        theme: 'dark',
+                        icon: 'far fa-check-circle',
+                        iconColor: 'rgb(0, 255, 184)',
+                        title: data.nama_domain,
+                        message: ' Berhasil ditambahkan',
+                        position: 'center',
+                        progressBarColor: 'rgb(0, 255, 184)',
+                        buttons: [
+                            ['<button class="btn btn-success">Refresh</button>', function (instance, toast) {
+                                window.location.assign('/indikators/create');
+                            }, true],
+                        ],
+                    });
                 },
                 error:function(error){
-                    const data = error.responseJSON;
+                    const errors = error.responseJSON.errors;
+                    const firstItem = Object.keys(errors)[0]
+                    const firstItemDOM = document.getElementById(firstItem)
+                    const firstErrorMessage = errors[firstItem][0]
 
-                    console.log(data.errors.nama_domain);
+                    console.log(firstErrorMessage);
 
-                    $('#nama_domain').addClass('is-invalid');
-                    $('#nama_domain_error').text(data.errors.nama_domain);
-                    $('#ket_domain').addClass('is-invalid')
-                    $('#ket_domain_error').text(data.errors.ket_domain);
-                    $('#modal-add-domain').modal('show');
+                    clearErrors()
+                    // show the error message
+                    firstItemDOM.insertAdjacentHTML('afterend', `<span class="invalid-feedback" role="alert">${firstErrorMessage}</span>`)
+
+                    // highlight the form control with the error
+                    firstItemDOM.classList.add('border', 'border-danger','is-invalid')
                 }
             });
         });
     });
+    // Akhir Tambah Domain
 
 
-    $('.btn-add-aspek').click(function(){
-        $('#modal-add-aspek').modal('show');
-
-        $('.btn-save-aspek').click(function(){
-            const form_data = $('#form-add-aspek').serialize();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                method:'POST',
-                url:`/aspeks`,
-                data:form_data,
-                success: function(data){
-                    $('#modal-add-aspek').modal('hide');
-                    window.location.assign('/indikators/create');
-                },
-                error:function(error){
-                    const data = error.responseJSON;
-
-                    console.log(data.errors.nama_aspek);
-
-                    $('#nama_aspek').addClass('is-invalid');
-                    $('#nama_aspek_error').text(data.errors.nama_aspek);
-                    $('#ket_aspek').addClass('is-invalid')
-                    $('#ket_aspek_error').text(data.errors.ket_aspek);
-                    $('#modal-add-aspek').modal('show');
-                }
-            });
-        });
-    });
-
+    // Event Change Domain
     $(document).on('change','#domain_id', function () {
         let id =  $(this).val();
         let a = $(this).parent();
@@ -265,26 +180,10 @@ $(function () {
             }
         });
     });
+    // Akhir Event Change Domain
 
-    $(document).on('change','#aspek_id', function () {
-        let id =  $(this).val();
-        let a = $(this).parent();
 
-        $.ajax({
-            type:'get',
-            url:`/findKetAspek`,
-            data:{'id':id},
-            dataType:'json',
-            success: function(data) {
-                a.find('#ket_aspek').val(data.ket_aspek);
-                $('.btn-edit-aspek').prop('disabled', false);
-                $('.btn-hapus-aspek').prop('disabled', false);
-            },
-            error:function(){
-            }
-        });
-    });
-
+    // Edit Domain
     $('.btn-edit-domain').click(function(){
         let id = $('#domain_id').val();
         console.log(id);
@@ -305,7 +204,9 @@ $(function () {
             }
         })
     });
+    // Akhir Edit Domain
 
+    // Update Domain
     $('.btn-update').click(function(){
         let id = $('#form-edit').find('#id_domain').val();
         let form_data = $('#form-edit').serialize();
@@ -319,13 +220,144 @@ $(function () {
             data:form_data,
             success: function(data){
                 $('#modal-edit-domain').modal('hide');
-                window.location.assign('/indikators/create');
-                $('#ket_domain_edit').val(data.ket_domain);
+
+                console.log(data);
+                iziToast.show({
+                    theme: 'dark',
+                    icon: 'far fa-check-circle',
+                    iconColor: 'rgb(0, 255, 184)',
+                    title: data.nama_domain,
+                    message: ' Berhasil diperbarui',
+                    position: 'center',
+                    progressBarColor: 'rgb(0, 255, 184)',
+                    buttons: [
+                        ['<button class="btn btn-success">Refresh</button>', function (instance, toast) {
+                            window.location.assign('/indikators/create');
+                        }, true],
+                    ],
+                });
+
             },
             error:function(error){
                 console.log(error)
             }
         })
+    });
+    // Akhir Update Domain
+
+    // Hapus Domain
+    $('.btn-hapus-domain').click(function(){
+        const id = $('#domain_id').val();
+        console.log(id);
+
+        Swal.fire({
+            title: 'Anda Yakin Hapus?',
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:`/domains/${id}`,
+                    method:'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data){
+                        console.log('Berhasil dihapus');
+                        Swal.fire(
+                            'Berhasil dihapus!',
+                            'User '+data.nama_domain+' terhapus',
+                            'success'
+                        )
+                        window.location.assign('/indikators/create');
+
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
+    // Akhir Hapus Domain
+
+
+    // JAVASCRIPT ASPEK
+    $('.btn-add-aspek').click(function(){
+        $('#btn-simpan-aspek').val("simpan").html('Simpan');
+        $('#id_domain').val('');
+        $('#form-tambah-aspek').trigger("reset");
+        $('#modal-judul-aspek').html("Tambah Aspek");
+        $('#modal-tambah-aspek').modal('show');
+
+        $('#btn-simpan-aspek').click(function(){
+            const form_data = $('#form-tambah-aspek').serialize();
+            $.ajax({
+                method:'POST',
+                url:`/aspeks`,
+                data:form_data,
+                success: function(data){
+                    $('#modal-tambah-aspek').modal('hide');
+
+                    iziToast.show({
+                        theme: 'dark',
+                        icon: 'far fa-check-circle',
+                        iconColor: 'rgb(0, 255, 184)',
+                        title: data.nama_aspek,
+                        message: ' Berhasil ditambahkan',
+                        position: 'center',
+                        progressBarColor: 'rgb(0, 255, 184)',
+                        buttons: [
+                            ['<button class="btn btn-success">Refresh</button>', function (instance, toast) {
+                                window.location.assign('/indikators/create');
+                            }, true],
+                        ],
+                    });
+                },
+                error:function(error){
+                    const errors = error.responseJSON.errors;
+                    const firstItem = Object.keys(errors)[0]
+                    const firstItemDOM = document.getElementById(firstItem)
+                    const firstErrorMessage = errors[firstItem][0]
+
+                    console.log(firstErrorMessage);
+
+                    clearErrors()
+                    // show the error message
+                    firstItemDOM.insertAdjacentHTML('afterend', `<span class="invalid-feedback" role="alert">${firstErrorMessage}</span>`)
+
+                    // highlight the form control with the error
+                    firstItemDOM.classList.add('border', 'border-danger','is-invalid')
+                }
+            });
+
+        });
+    });
+
+
+
+
+    $(document).on('change','#aspek_id', function () {
+        let id =  $(this).val();
+        let a = $(this).parent();
+
+        $.ajax({
+            type:'get',
+            url:`/findKetAspek`,
+            data:{'id':id},
+            dataType:'json',
+            success: function(data) {
+                a.find('#ket_aspek').val(data.ket_aspek);
+                $('.btn-edit-aspek').prop('disabled', false);
+                $('.btn-hapus-aspek').prop('disabled', false);
+            },
+            error:function(){
+            }
+        });
     });
 
 
@@ -351,8 +383,9 @@ $(function () {
     });
 
     $('.btn-update-aspek').click(function(){
-        let id = $('#form-edit-aspek').find('#id_aspek').val();
-        let form_data = $('#form-edit-aspek').serialize();
+        const id = $('#form-edit-aspek').find('#id_aspek').val();
+        const form_data = $('#form-edit-aspek').serialize();
+
         console.log(form_data);
         $.ajax({
             headers: {
@@ -363,8 +396,21 @@ $(function () {
             data:form_data,
             success: function(data){
                 $('#modal-edit-aspek').modal('hide');
-                window.location.assign('/indikators/create');
-                $('#ket_aspek_edit').val(data.ket_aspek);
+
+                iziToast.show({
+                    theme: 'dark',
+                    icon: 'far fa-check-circle',
+                    iconColor: 'rgb(0, 255, 184)',
+                    title: data.nama_aspek,
+                    message: ' Berhasil diperbarui',
+                    position: 'center',
+                    progressBarColor: 'rgb(0, 255, 184)',
+                    buttons: [
+                        ['<button class="btn btn-success">Refresh</button>', function (instance, toast) {
+                            window.location.assign('/indikators/create');
+                        }, true],
+                    ],
+                });
             },
             error:function(error){
                 console.log(error)
@@ -372,39 +418,6 @@ $(function () {
         })
     });
 
-
-    $('.btn-hapus-domain').click(function(){
-        const id = $('#domain_id').val();
-        console.log(id);
-
-        Swal.fire({
-            title: 'Anda Yakin Hapus?',
-            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url:`/domains/${id}`,
-                    method:'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(){
-                        console.log('Berhasil dihapus');
-                        window.location.assign('/indikators/create');
-
-                    },
-                    error: function(error){
-                        console.log(error);
-                    }
-                });
-            }
-        });
-    });
 
     $('.btn-hapus-aspek').click(function(){
         let id = $('#aspek_id').val();
@@ -426,9 +439,14 @@ $(function () {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    success: function(){
+                    success: function(data){
                         console.log('Berhasil dihapus');
                         $('#modal-hapus-aspek').modal('hide');
+                        Swal.fire(
+                            'Berhasil dihapus!',
+                            'User '+data.nama_aspek+' terhapus',
+                            'success'
+                        )
                         window.location.assign('/indikators/create');
 
                     },
@@ -466,10 +484,20 @@ $(function () {
                 error: function(error){
                     console.log(error);
                 }
-            })
-        })
-    })
+            });
+        });
+    });
 });
+
+
+function clearErrors() {
+    // remove all error messages
+    const errorMessages = document.querySelectorAll('.text-danger')
+    errorMessages.forEach((element) => element.textContent = '')
+    // remove all form controls with highlighted error text box
+    const formControls = document.querySelectorAll('.form-control')
+    formControls.forEach((element) => element.classList.remove('border', 'border-danger', 'is-invalid'))
+}
 
 
 // =============================================================
@@ -624,3 +652,16 @@ removeClasses(DOMstrings.stepsBtns, 'js-active');
 
 //     setAnimationType(newAnimationType);
 //   });
+
+
+$(document).ready(function() {
+    $("#input-704").fileinput({
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        uploadUrl:  "/file-upload-batch/2",
+        uploadAsync: false,
+        overwriteInitial: false,
+        minFileCount: 1,
+        maxFileCount: 5,
+        initialPreviewAsData: true // identify if you are sending preview data only and not the markup
+    });
+});

@@ -30,5 +30,14 @@ class Indikator extends Model
     {
         return $this->belongsTo(Aspek::class);
     }
+    public function rekap()
+    {
+        return $this->hasOne(Rekap::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(FilePendukung::class);
+    }
 }
 

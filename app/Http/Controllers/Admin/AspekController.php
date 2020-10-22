@@ -30,7 +30,7 @@ class AspekController extends Controller
         ]);
 
         Aspek::create($validateData);
-        return response()->json($request);
+        return response()->json($validateData);
     }
 
     public function show($id)
@@ -49,11 +49,16 @@ class AspekController extends Controller
             'nama_aspek'   => $request->nama_aspek,
             'ket_aspek'    => $request->ket_aspek,
         ]);
+
+        return response()->json($request);
+
     }
 
     public function destroy(Aspek $aspek)
     {
         $aspek->delete();
+        return response()->json($aspek);
+
     }
 
     public function findKet(Request $request)

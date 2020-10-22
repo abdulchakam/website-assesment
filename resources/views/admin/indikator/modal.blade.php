@@ -1,15 +1,15 @@
-<div id="modal-add-domain" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+<div id="modal-tambah-domain" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="my-modal-title">Tambah Domain</h5>
+                <h5 class="modal-title" id="modal-judul"></h5>
                 <button class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form-add-domain">
-                @csrf
+                <form id="form-tambah-domain" name="form-tambah-edit-domain">
+
                 <div class="form-group row mx-auto">
                     <div class="col-md-12">
                         <label for="nama_domain">Nama domain</label>
@@ -27,8 +27,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary px-5 btn-save-domain">
-                    Tambah
+                <button type="button" class="btn btn-primary px-5 btn-save-domain" id="btn-simpan-domain">
                 </button>
                 </form>
             </div>
@@ -38,17 +37,17 @@
 
 
 {{-- Modal Tambah Aspek --}}
-<div id="modal-add-aspek" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+<div id="modal-tambah-aspek" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="my-modal-title">Tambah Aspek</h5>
+                <h5 class="modal-title" id="modal-judul-aspek"></h5>
                 <button class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form-add-aspek">
+                <form id="form-tambah-aspek">
                 @csrf
                 <div class="form-group row mx-auto">
                     <div class="col-md-12">
@@ -67,8 +66,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary px-5 btn-save-aspek">
-                    Tambah
+                <button type="button" class="btn btn-primary px-5" id="btn-simpan-aspek">
+
                 </button>
                 </form>
             </div>
