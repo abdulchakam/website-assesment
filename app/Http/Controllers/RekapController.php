@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\FilePendukung;
+use App\Indikator;
+use App\Http\Controllers\Exports\IndikatorExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Rekap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,8 +13,42 @@ use Illuminate\Support\Facades\File;
 
 class RekapController extends Controller
 {
-    public function index()
+    public function __construct()
     {
+        $this->middleware('auth');
+    }
+    public function index(Request $request)
+    {
+
+        if($request->ajax()){
+            $query = Indikator::with('users')->select('indikators.*');
+
+            return datatables()->eloquent($query)
+            ->addColumn('users', function(Indikator $indikator){
+                return $indikator->users->pluck('username')->implode(' | ');
+            })
+            ->addColumn('status', function(Indikator $indikator){
+                $rekap = Rekap::where('indikator_id',$indikator->id)->get();
+
+                if ($rekap->count() === 0) {
+                    $status = '<span class="badge badge-pill badge-danger py-1 px-2">';
+                    $status .= '<i class="fas fa-exclamation-circle mr-2"></i> Belum';
+                    $status .= '</span>';
+                    return $status;
+                }else{
+                    $status = '<span class="badge badge-pill badge-success py-1 px-2">';
+                    $status .= '<i class="fas fa-check-circle mr-2"></i> Terisi';
+                    $status .= '</span>';
+                    return $status;
+                }
+            })
+            ->addColumn('aksi', function(Indikator $indikator){
+                $button = '<button class=" btn btn-sm shadow-sm bg-white radius-10 btn-detail btn-action-primary" type="button" data-id="'.$indikator->id.'">';
+                $button .= '<i class="fas fa-chevron-right fa-lg"></i>';
+                $button .= '</button>';
+                return $button;
+            })->rawColumns(['status','aksi'])->make(true);
+        }
         return view('admin.rekap.index');
     }
     public function create()
@@ -21,40 +58,52 @@ class RekapController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $user_id  = $user->id;
+
         $id = $request->id;
         $validateData = $request->validate([
             'level'       => 'required',
-            'penjelasan' => 'required',
+            'penjelasan'  => 'required',
         ]);
 
         if($validateData['level'] == 'level0'){
             $nilai = 0;
             $data = Rekap::updateOrCreate(['id' => $id],
             [
-                'indikator_id' => $request['indikator_id'],
-                'pilihan' => $validateData['level'],
-                'nilai' => $nilai,
-                'penjelasan' => $validateData['penjelasan'],
+                'indikator_id'  => $request['indikator_id'],
+                'domain_id'     => $request['domain_id'],
+                'aspek_id'      => $request['aspek_id'],
+                'user_id'       => $user_id,
+                'pilihan'       => $validateData['level'],
+                'nilai'         => $nilai,
+                'penjelasan'    => $validateData['penjelasan'],
             ]);
             return response()->json($data);
         }elseif($validateData['level'] == 'level1'){
             $nilai = 1;
             $data = Rekap::updateOrCreate(['id' => $id],
             [
-                'indikator_id' => $request['indikator_id'],
-                'pilihan' => $validateData['level'],
-                'nilai' => $nilai,
-                'penjelasan' => $validateData['penjelasan'],
+                'indikator_id'  => $request['indikator_id'],
+                'domain_id'     => $request['domain_id'],
+                'aspek_id'      => $request['aspek_id'],
+                'user_id'       => $user_id,
+                'pilihan'       => $validateData['level'],
+                'nilai'         => $nilai,
+                'penjelasan'    => $validateData['penjelasan'],
             ]);
             return response()->json($data);
         }elseif($validateData['level'] == 'level2'){
             $nilai = 2;
             $data = Rekap::updateOrCreate(['id' => $id],
             [
-                'indikator_id' => $request['indikator_id'],
-                'pilihan' => $validateData['level'],
-                'nilai' => $nilai,
-                'penjelasan' => $validateData['penjelasan'],
+                'indikator_id'  => $request['indikator_id'],
+                'domain_id'     => $request['domain_id'],
+                'aspek_id'      => $request['aspek_id'],
+                'user_id'       => $user_id,
+                'pilihan'       => $validateData['level'],
+                'nilai'         => $nilai,
+                'penjelasan'    => $validateData['penjelasan'],
             ]);
 
             return response()->json($data);
@@ -62,10 +111,13 @@ class RekapController extends Controller
             $nilai = 3;
             $data = Rekap::updateOrCreate(['id' => $id],
             [
-                'indikator_id' => $request['indikator_id'],
-                'pilihan' => $validateData['level'],
-                'nilai' => $nilai,
-                'penjelasan' => $validateData['penjelasan'],
+                'indikator_id'  => $request['indikator_id'],
+                'domain_id'     => $request['domain_id'],
+                'aspek_id'      => $request['aspek_id'],
+                'user_id'       => $user_id,
+                'pilihan'       => $validateData['level'],
+                'nilai'         => $nilai,
+                'penjelasan'    => $validateData['penjelasan'],
             ]);
 
             return response()->json($data);
@@ -73,10 +125,13 @@ class RekapController extends Controller
             $nilai = 4;
             $data = Rekap::updateOrCreate(['id' => $id],
             [
-                'indikator_id' => $request['indikator_id'],
-                'pilihan' => $validateData['level'],
-                'nilai' => $nilai,
-                'penjelasan' => $validateData['penjelasan'],
+                'indikator_id'  => $request['indikator_id'],
+                'domain_id'     => $request['domain_id'],
+                'aspek_id'      => $request['aspek_id'],
+                'user_id'       => $user_id,
+                'pilihan'       => $validateData['level'],
+                'nilai'         => $nilai,
+                'penjelasan'    => $validateData['penjelasan'],
             ]);
 
             return response()->json($data);
@@ -84,10 +139,13 @@ class RekapController extends Controller
             $nilai = 5;
             $data = Rekap::updateOrCreate(['id' => $id],
             [
-                'indikator_id' => $request['indikator_id'],
-                'pilihan' => $validateData['level'],
-                'nilai' => $nilai,
-                'penjelasan' => $validateData['penjelasan'],
+                'indikator_id'  => $request['indikator_id'],
+                'domain_id'     => $request['domain_id'],
+                'aspek_id'      => $request['aspek_id'],
+                'user_id'       => $user_id,
+                'pilihan'       => $validateData['level'],
+                'nilai'         => $nilai,
+                'penjelasan'    => $validateData['penjelasan'],
             ]);
 
             return response()->json($data);
@@ -138,9 +196,9 @@ class RekapController extends Controller
         FilePendukung::where('id',$id)->delete();
 
     }
-    public function show(Rekap $rekap)
+    public function show($id)
     {
-        //
+
     }
 
     public function edit(Rekap $rekap)
@@ -156,5 +214,23 @@ class RekapController extends Controller
     public function destroy(Rekap $rekap)
     {
         //
+    }
+
+    public function detailRekap($id)
+    {
+        $indikator = Indikator::find($id);
+
+            $data_indikator = Indikator::where('id', [$id])->first();
+            $data_rekap = Rekap::where('indikator_id', [$id])->get();
+            $data_files = FilePendukung::where('indikator_id', [$id])->get();
+
+            return view('admin.rekap.show',['indikators' => [$data_indikator], 'rekap' => $data_rekap,  'files' => $data_files]);
+
+        // return view('admin.rekap.show',['indikators' =>[$indikator]]);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new IndikatorExport($request->id), 'Indikator.xlsx');
     }
 }

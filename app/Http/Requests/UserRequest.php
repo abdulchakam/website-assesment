@@ -26,7 +26,15 @@ class UserRequest extends FormRequest
         return [
             'name'                   => 'required|min:3|max:80',
             'username'               => 'required|min:2|max:20|unique:users,username',
-            'email'                  => 'required|email',
+            'email'                  => '',
+            'nip'                    => 'required|unique:users,nip',
+            'unit_kerja'             => '',
+            'jabatan'                => '',
+            'no_hp'                  => '',
+            'instansi'               => '',
+            'instansi_induk'         => '',
+            'alm_instansi'           => '',
+            'telp_instansi'          => '',
             'role'                   => 'required',
             'password'               => 'required|min:8|confirmed',
         ];

@@ -10,7 +10,7 @@ class AspekController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('role:admin|super admin');
     }
     public function index()
     {

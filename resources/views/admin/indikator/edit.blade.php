@@ -5,18 +5,20 @@
 <div class="row">
     <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
         <div class="multisteps-form__progress">
-            <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">User Info</button>
-            <button class="multisteps-form__progress-btn" type="button" title="Address">Address</button>
-            <button class="multisteps-form__progress-btn" type="button" title="Order Info">Order Info</button>
-            <button class="multisteps-form__progress-btn" type="button" title="Message">Message</button>
+            <button class="multisteps-form__progress-btn js-active" type="button"> <i class="fas fa-check-circle"></i> Tahap 1</button>
+            <button class="multisteps-form__progress-btn" type="button"> <i class="fas fa-check-circle"></i> Tahap 2</button>
+            <button class="multisteps-form__progress-btn" type="button"> <i class="fas fa-check-circle"></i> Tahap 3</button>
         </div>
     </div>
 </div>
+
 <form action="{{ route('indikators.update',['indikator' => $indikator->id]) }}" method="post" class="multisteps-form__form">
 @method('PATCH')
 @csrf
-    <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+    <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="slideHorz">
     <h3 class="multisteps-form__title">Edit {{ $indikator->nama_indikator }}</h3>
+    <hr>
+    <br>
     <div class="multisteps-form__content">
         <div class="container">
             <div class="row">
@@ -24,7 +26,7 @@
                     <div class="form-group">
                         <label for="nama_indikator">Nama Indikator</label>
                         <input id="nama_indikator" class="form-control @error('nama_indikator') is-invalid @enderror"
-                                type="text" name="nama_indikator_edit" value="{{ old('nama_indikator') ?? $indikator->nama_indikator }}"  autocomplete="nama_indikator" autofocus>
+                                type="text" name="nama_indikator" value="{{ old('nama_indikator') ?? $indikator->nama_indikator }}"  autocomplete="nama_indikator" autofocus>
                                 @error('nama_indikator')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -125,15 +127,19 @@
         </div>
     </div>
 
+    <br>
+    <hr class="mt-2">
     <div class="row">
-        <div class="button-row d-flex mt-4 col-12">
-        <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+        <div class="button-row d-flex mt-2 col-12">
+        <button class="btn ml-auto js-btn-next tombol" type="button" title="Selanjutnya">
+            Selanjutnya <i class=" fas fa-angle-right ml-2"></i>
+        </button>
         </div>
     </div>
 </div>
 
-<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
-    <h3 class="multisteps-form__title">Your User Info</h3>
+<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="slideHorz">
+    <br>
     <div class="multisteps-form__content">
         <div class="container">
             <div class="row">
@@ -217,37 +223,44 @@
         </div>
     </div>
 
+    <br>
+    <hr class="mt-2">
     <div class="row">
         <div class="button-row d-flex mt-4 col-12">
-        <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-        <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+        <button class="btn tombol2 js-btn-prev" type="button" title="Sebelumnya">
+            <i class=" fas fa-angle-left mr-2"></i>  Sebelumnya
+        </button>
+        <button class="btn tombol ml-auto js-btn-next" type="button" title="Selanjutnya">
+            Selanjutnya <i class=" fas fa-angle-right ml-2"></i>
+        </button>
         </div>
     </div>
 </div>
 
-<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
-    <h3 class="multisteps-form__title">Your User Info</h3>
+<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="slideHorz">
+    <br>
     <div class="multisteps-form__content">
         <div class="container">
-            <div class="form-group">
-                <label for="petunjuk">Petunjuk</label>
-                <textarea id="petunjuk" class="form-control ckeditor @error('level5') is-invalid @enderror" name="petunjuk">{{ old('petunjuk') ?? $indikator->petunjuk  }} </textarea>
-                @error('petunjuk')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                            <label for="users">User</label>
+                        <label for="petunjuk">Petunjuk</label>
+                        <textarea id="petunjuk" class="form-control ckeditor  @error('level5') is-invalid @enderror" name="petunjuk">{{ old('petunjuk') ?? $indikator->petunjuk  }}</textarea>
+                        @error('petunjuk')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mt-4">
+                            <label for="users">Pilih Dinas</label>
                             <select id="users" class="form-control select-user @error('users') is-invalid @enderror" name="users[]" multiple>
                                 @foreach ($indikator->users as $user)
-                                    <option selected value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option selected value="{{ $user->id }}">{{ $user->instansi }} - {{ $user->username }}</option>
                                 @endforeach
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->instansi }} - {{ $user->username }}</option>
                                 @endforeach
                             </select>
                             @error('users')
@@ -261,10 +274,16 @@
         </div>
     </div>
 
+    <br>
+    <hr class="mt-2">
     <div class="row">
         <div class="button-row d-flex mt-4 col-12">
-            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-            <button class="btn ml-auto btn-success" type="submit">Update</button>
+            <button class="btn tombol2 js-btn-prev" type="button" title="Sebelumnya">
+                <i class=" fas fa-angle-left mr-2"></i> Sebelumnya
+            </button>
+            <button class="btn btn-success ml-auto btn-simpan-indikator px-4 radius-10" type="submit">
+                <i class=" fas fa-save mr-2"></i> Simpan
+            </button>
         </div>
     </div>
 
@@ -272,9 +291,7 @@
 </form>
 @push('srcipts')
 <script>
-    $(function () {
 
-    });
 </script>
 @endpush
 
