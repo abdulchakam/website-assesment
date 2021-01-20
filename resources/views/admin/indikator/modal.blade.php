@@ -1,9 +1,9 @@
 <div id="modal-tambah-domain" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-dark-2">
                 <h5 class="modal-title" id="modal-judul"></h5>
-                <button class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close text-danger" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary px-5 btn-save-domain" id="btn-simpan-domain">
+                <button type="button" class="btn btn-success radius-10 px-5 btn-save-domain" id="btn-simpan-domain">
                 </button>
                 </form>
             </div>
@@ -40,9 +40,9 @@
 <div id="modal-tambah-aspek" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-dark-2">
                 <h5 class="modal-title" id="modal-judul-aspek"></h5>
-                <button class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close text-danger" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary px-5" id="btn-simpan-aspek">
+                <button type="button" class="btn btn-success radius-10 px-5" id="btn-simpan-aspek">
 
                 </button>
                 </form>
@@ -80,9 +80,9 @@
 <div id="modal-edit-domain" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-dark-2">
                 <h5 class="modal-title" id="my-modal-title">Edit Domain</h5>
-                <button class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close text-danger" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -114,8 +114,10 @@
                         @enderror
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-primary px-5 btn-update">
-                    Update
+                    Perbarui
                 </button>
                 </form>
             </div>
@@ -128,9 +130,9 @@
 <div id="modal-edit-aspek" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-dark-2">
                 <h5 class="modal-title" id="my-modal-title">Edit aspek</h5>
-                <button class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close text-danger" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -162,6 +164,8 @@
                         @enderror
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-primary px-5 btn-update-aspek">
                     Update
                 </button>
@@ -214,24 +218,3 @@
     </div>
 </div>
 
-
-{{-- Modal Hapus Indikator--}}
-<div id="modal-hapus-indikator" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger">
-                <h5 class="modal-title" id="my-modal-title"> <strong class="text-white font-weight-bold">Yakin anda akan menghapus?</strong></h5>
-                <button class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body py-4">
-                Data yang sudah dihapus tidak bisa dikebalikan!
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="batal-indikator" class="btn btn-md btn-secondary">Batal</button>
-                <button type="button" id="hapus-indikator" class="btn btn-md btn-danger">Hapus</button>
-            </div>
-        </div>
-    </div>
-</div>

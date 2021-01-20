@@ -5,18 +5,19 @@
 <div class="row">
     <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
         <div class="multisteps-form__progress">
-            <button class="multisteps-form__progress-btn js-active" type="button" title="User Info">User Info</button>
-            <button class="multisteps-form__progress-btn" type="button" title="Address">Address</button>
-            <button class="multisteps-form__progress-btn" type="button" title="Order Info">Order Info</button>
-            <button class="multisteps-form__progress-btn" type="button" title="Message">Message</button>
+            <button class="multisteps-form__progress-btn js-active" type="button"> <i class="fas fa-check-circle"></i> Tahap 1</button>
+            <button class="multisteps-form__progress-btn" type="button"> <i class="fas fa-check-circle"></i> Tahap 2</button>
+            <button class="multisteps-form__progress-btn" type="button"> <i class="fas fa-check-circle"></i> Tahap 3</button>
         </div>
     </div>
 </div>
 
-<form action="{{ route('indikators.store') }}" method="post" class="multisteps-form__form">
+<form id="form-tambah-indikator" class="multisteps-form__form">
 @csrf
-    <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
-    <h3 class="multisteps-form__title">Your User Info</h3>
+    <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="slideHorz">
+    <h3 class="multisteps-form__title">Tambah Indikator Baru</h3>
+    <hr>
+    <br>
     <div class="multisteps-form__content">
         <div class="container">
             <div class="row">
@@ -77,13 +78,13 @@
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-5">
                             <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-sm btn-outline-success btn-rounded btn-add-domain" data-toggle="modal">
+                                <button type="button" class="btn btn-sm bg-white shadow-sm text-success radius-10 btn-add-domain" data-toggle="modal">
                                     <i class="fa fa-plus"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-primary btn-rounded btn-edit-domain" disabled='disabled' data-toggle="modal">
+                                <button type="button" class="btn btn-sm bg-white shadow-sm text-primary radius-10 btn-edit-domain" disabled='disabled' data-toggle="modal">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-danger btn-rounded btn-hapus-domain" disabled='disabled'>
+                                <button type="button" class="btn btn-sm bg-white shadow-sm text-danger radius-10 btn-hapus-domain" disabled='disabled'>
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -101,17 +102,22 @@
                             @endforeach
                         </select>
                         <input type="text"  id="ket_aspek" class="form-control mt-2" readonly>
+                                    @error('aspek_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-md-4 col-5">
                             <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-sm btn-outline-success btn-rounded btn-add-aspek" data-toggle="modal">
+                                <button type="button" class="btn btn-sm bg-white shadow-sm text-success radius-10 btn-add-aspek" data-toggle="modal">
                                     <i class="fa fa-plus"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-primary btn-rounded btn-edit-aspek" disabled='disabled' data-toggle="modal">
+                                <button type="button" class="btn btn-sm bg-white shadow-sm text-primary radius-10 btn-edit-aspek" disabled='disabled' data-toggle="modal">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-danger btn-rounded btn-hapus-aspek" disabled='disabled'>
+                                <button type="button" class="btn btn-sm bg-white shadow-sm text-danger adius-10 btn-hapus-aspek" disabled='disabled'>
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -122,15 +128,19 @@
         </div>
     </div>
 
+    <br>
+    <hr class="mt-2">
     <div class="row">
-        <div class="button-row d-flex mt-4 col-12">
-        <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+        <div class="button-row d-flex mt-2 col-12">
+        <button class="btn ml-auto js-btn-next tombol" type="button" title="Selanjutnya">
+            Selanjutnya <i class=" fas fa-angle-right ml-2"></i>
+        </button>
         </div>
     </div>
 </div>
 
-<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
-    <h3 class="multisteps-form__title">Your User Info</h3>
+<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="slideHorz">
+    <br>
     <div class="multisteps-form__content">
         <div class="container">
             <div class="row">
@@ -214,34 +224,41 @@
         </div>
     </div>
 
+    <br>
+    <hr class="mt-2">
     <div class="row">
         <div class="button-row d-flex mt-4 col-12">
-        <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-        <button class="btn btn-primary ml-auto js-btn-next" type="button" title="Next">Next</button>
+        <button class="btn tombol2 js-btn-prev" type="button" title="Sebelumnya">
+            <i class=" fas fa-angle-left mr-2"></i>  Sebelumnya
+        </button>
+        <button class="btn tombol ml-auto js-btn-next" type="button" title="Selanjutnya">
+            Selanjutnya <i class=" fas fa-angle-right ml-2"></i>
+        </button>
         </div>
     </div>
 </div>
 
-<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="scaleIn">
-    <h3 class="multisteps-form__title">Your User Info</h3>
+<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-animation="slideHorz">
+    <br>
     <div class="multisteps-form__content">
         <div class="container">
-            <div class="form-group">
-                <label for="petunjuk">Petunjuk</label>
-                <textarea id="petunjuk" class="form-control  @error('level5') is-invalid @enderror" name="petunjuk"></textarea>
-                @error('petunjuk')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                            <label for="users">User</label>
+                        <label for="petunjuk">Petunjuk</label>
+                        <textarea id="petunjuk" class="form-control  @error('level5') is-invalid @enderror" name="petunjuk"></textarea>
+                        @error('petunjuk')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mt-4">
+                            <label for="users">Pilih Dinas</label>
                             <select id="users" class="form-control select-user @error('users') is-invalid @enderror" name="users[]" multiple>
                                 @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->instansi }} - {{ $user->username }}</option>
                                 @endforeach
                             </select>
                             @error('users')
@@ -255,10 +272,16 @@
         </div>
     </div>
 
+    <br>
+    <hr class="mt-2">
     <div class="row">
         <div class="button-row d-flex mt-4 col-12">
-            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
-            <button class="btn ml-auto btn-success" type="submit">Tambah</button>
+            <button class="btn tombol2 js-btn-prev" type="button" title="Sebelumnya">
+                <i class=" fas fa-angle-left mr-2"></i> Sebelumnya
+            </button>
+            <button class="btn btn-success ml-auto btn-simpan-indikator radius-10" type="submit">
+                <i class=" fas fa-save mr-2"></i> Simpan
+            </button>
         </div>
     </div>
 
@@ -268,10 +291,71 @@
 
 @push('script')
     <script>
-        // CKEditor
-        $(document).ready(function () {
+        $(document).ready( function(){
+
             CKEDITOR.replace('petunjuk');
+
+            if($('#form-tambah-indikator').length > 0){
+                $('#form-tambah-indikator').validate({
+                    submitHandler: function(form){
+                        let actionType = $('.btn-simpan-indikator').val();
+                                            $('.btn-simpan-indikator').html('<i class="fas fa-sync-alt mr-2"></i>Menyimpan...');
+
+                        CKEDITOR.instances.petunjuk.updateElement();
+                        const form_data = $('#form-tambah-indikator').serialize();
+
+                        $.ajax({
+                            data: form_data,
+                            url: `/indikators`,
+                            type: 'POST',
+                            dataType: 'json',
+
+                            success: function(data){
+                                console.log('Berhasil');
+                                window.location.assign('/indikators');
+                                iziToast.success({
+                                    title: 'Indikator Berhasil Disimpan',
+                                    message: data.nama_indikator,
+                                });
+                            },
+                            error: function(error){
+                                console.log(error);
+                                $(".btn-simpan-indikator").html('<i class="fas fa-save mr-2"></i>Simpan');
+                                const errors = error.responseJSON.errors
+                                const firstItem = Object.keys(errors)[0]
+                                const firstItemDOM = document.getElementById(firstItem)
+                                const firstErrorMessage = errors[firstItem][0]
+
+                                console.log(firstErrorMessage);
+                                console.log(firstItemDOM);
+
+                                clearErrors()
+
+                                // show the error message
+                                firstItemDOM.insertAdjacentHTML('afterend', `<span class="invalid-feedback" role="alert">${firstErrorMessage}</span>`)
+
+                                // highlight the form control with the error
+                                firstItemDOM.classList.add('border', 'border-danger','is-invalid')
+
+                                iziToast.warning({
+                                    title: 'Gagal Menyimpan!',
+                                    message: 'Silahkan Cek Kembali',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
+
+        function clearErrors() {
+                // remove all error messages
+                const errorMessages = document.querySelectorAll('.text-danger')
+                errorMessages.forEach((element) => element.textContent = '')
+                // remove all form controls with highlighted error text box
+                const formControls = document.querySelectorAll('.form-control')
+                formControls.forEach((element) => element.classList.remove('border', 'border-danger', 'is-invalid'))
+            }
     </script>
 @endpush
 

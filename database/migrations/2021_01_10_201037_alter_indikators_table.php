@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterFilesTable extends Migration
+class AlterIndikatorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AlterFilesTable extends Migration
      */
     public function up()
     {
-        Schema::table('files', function (Blueprint $table) {
-            $table->foreignId('indikator_id')->after('id');
-            $table->foreignId('user_id')->after('indikator_id');
+        Schema::table('indikators', function (Blueprint $table) {
+            $table->dropUnique('indikators_nama_indikator_unique');
         });
     }
 
@@ -26,9 +25,8 @@ class AlterFilesTable extends Migration
      */
     public function down()
     {
-        Schema::table('files', function (Blueprint $table) {
-            $table->dropColumn('indikator_id');
-            $table->dropColumn('user_id');
+        Schema::table('indikators', function (Blueprint $table) {
+            $table->string('nama_indikator')->unique();
         });
     }
 }

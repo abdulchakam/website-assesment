@@ -106,7 +106,7 @@ $(function () {
     // JAVASCRIPT DOMAIN
     // Tambah Domain
     $('.btn-add-domain').click(function(){
-        $('#btn-simpan-domain').val("simpan").html('Simpan');
+        $('#btn-simpan-domain').val("simpan").html('<i class="fas fa-save mr-2"></i> Simpan');
         $('#id_domain').val('');
         $('#form-tambah-domain').trigger("reset");
         $('#modal-judul').html("Tambah Domain");
@@ -288,7 +288,7 @@ $(function () {
 
     // JAVASCRIPT ASPEK
     $('.btn-add-aspek').click(function(){
-        $('#btn-simpan-aspek').val("simpan").html('Simpan');
+        $('#btn-simpan-aspek').val("simpan").html('<i class="fas fa-save mr-2"></i> Simpan');
         $('#id_domain').val('');
         $('#form-tambah-aspek').trigger("reset");
         $('#modal-judul-aspek').html("Tambah Aspek");
@@ -487,6 +487,43 @@ $(function () {
             });
         });
     });
+
+
+// =============================================================
+//               Javascript Multisteps modal
+// =============================================================
+
+$(".tabs").click(function(){
+
+    $(".tabs").removeClass("active");
+    $(".tabs h6").removeClass("font-weight-bold");
+    $(".tabs h6").addClass("text-muted");
+    $(this).children("h6").removeClass("text-muted");
+    $(this).children("h6").addClass("font-weight-bold");
+    $(this).addClass("active");
+
+    current_fs = $(".active");
+
+    next_fs = $(this).attr('id');
+    next_fs = "#" + next_fs + "1";
+
+    $("fieldset").removeClass("show");
+    $(next_fs).addClass("show");
+
+        current_fs.animate({}, {
+            step: function() {
+                current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+                });
+                next_fs.css({
+                'display': 'block'
+                });
+            }
+        });
+    });
+
+
 });
 
 
@@ -654,14 +691,14 @@ removeClasses(DOMstrings.stepsBtns, 'js-active');
 //   });
 
 
-$(document).ready(function() {
-    $("#input-704").fileinput({
-        allowedFileExtensions: ['jpg', 'png', 'gif'],
-        uploadUrl:  "/file-upload-batch/2",
-        uploadAsync: false,
-        overwriteInitial: false,
-        minFileCount: 1,
-        maxFileCount: 5,
-        initialPreviewAsData: true // identify if you are sending preview data only and not the markup
-    });
-});
+// $(document).ready(function() {
+//     $("#input-704").fileinput({
+//         allowedFileExtensions: ['jpg', 'png', 'gif'],
+//         uploadUrl:  "/file-upload-batch/2",
+//         uploadAsync: false,
+//         overwriteInitial: false,
+//         minFileCount: 1,
+//         maxFileCount: 5,
+//         initialPreviewAsData: true // identify if you are sending preview data only and not the markup
+//     });
+// });

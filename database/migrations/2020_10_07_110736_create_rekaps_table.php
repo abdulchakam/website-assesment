@@ -15,10 +15,13 @@ class CreateRekapsTable extends Migration
     {
         Schema::create('rekaps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('indikator_id');
+            $table->foreignId('indikator_id')->constrained('indikators')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('domain_id')->constrained('domains')->onDelete('cascade');
+            $table->foreignId('aspek_id')->constrained('aspeks')->onDelete('cascade');
             $table->string('pilihan');
             $table->integer('nilai');
-            $table->string('penjelasan');
+            $table->longText('penjelasan');
             $table->timestamps();
         });
     }

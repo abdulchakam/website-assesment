@@ -1,24 +1,29 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-7 align-self-center">
-            <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good Morning {{ Auth::user()->name }}</h3>
-            <div class="d-flex align-items-center">
+            <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">
+            <?php
+                date_default_timezone_set('Asia/Jakarta');
+                $jam = date("H");
+                if (($jam >= 6) && ($jam <= 11)) {
+                    echo "Selamat Pagi,";
+                }else if(($jam > 11) && ($jam <= 15)) {
+                    echo "Selamat Siang,";
+                }else if(($jam > 15) && ($jam < 18)){
+                    echo "Selamat Sore,";
+                }else{
+                    echo "Selamat Malam,";
+                }
+            ?> {{ Auth::user()->name }}
+            </h3>
+            {{-- <div class="d-flex align-items-center">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb m-0 p-0">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
                         </li>
                     </ol>
                 </nav>
-            </div>
-        </div>
-        <div class="col-5 align-self-center">
-            <div class="customize-input float-right">
-                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                    <option selected>2018</option>
-                    <option value="1">2019</option>
-                    <option value="2">2020</option>
-                </select>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

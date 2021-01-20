@@ -1,58 +1,35 @@
 @extends('admin.index')
 
 @section('content')
-@if (session()->has('pesan'))
-    <div class="alert alert-success">
-        {{ session()->get('pesan') }}
-    </div>
-@endif
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card card-custom">
             <div class="card-body">
                 <div class="pt-2 pb-4 d-flex justify-content-end align-items-center">
                     <h3 class="card-title mr-auto">Indikator</h3>
 
                     @include('admin.components.modal')
                     @role('super admin')
-                        <a class="sidebar-link btn btn-gradient custom-radius d-none d-xl-block d-md-block"
-                            href="{{ route('indikators.create') }}" aria-expanded="false">
-                            <i data-feather="plus" class="feather-icon"></i>
-                            <span class="hide-menu">Buat Indikator</span>
-                        </a>
-                        <a class="sidebar-link btn btn-gradient btn-circle d-block d-md-none btn-add"
-                            href="{{ route('indikators.create') }}" aria-expanded="false">
-                            <i data-feather="plus" class="feather-icon"></i>
-                        </a>
+                        <button type="button" class="btn tombol d-none d-xl-block d-md-block" id="btn-add">
+                            <i class="fas fa-plus mr-2"></i>Tambah
+                        </button>
+
+                        <button type="button" class="btn tombol d-block d-md-none" id="btn-add">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     @endrole
                 </div>
                 <div class="table-responsive">
-                <table table id="zero_config" class="table table-striped no-wrap table-sm table-bordered">
+                <table id="tabel_indikator" class="table table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>Nama Indikator</th>
                             <th>Keterangan</th>
                             <th>User Dinas</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($indikators as $indikator)
-                        <tr>
-                            <td><div class="text-center">{{ $loop->iteration }}</div></td>
-                            <td><a href="{{ route('indikators.show',['indikator' => $indikator->id]) }}" class="font-weight-bold">
-                                    {{ $indikator->nama_indikator }}
-                                </a>
-                            </td>
-                            <td>{{ $indikator->ket_indikator }}</td>
-                            <td>
-                                @foreach ($indikator->users as $user)
-                                    {{ $user->username }} </br>
-                                @endforeach
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
                 </table>
                 </div>
             </div>
@@ -60,3 +37,66 @@
     </div>
 </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function(){
+            $('#btn-add').click(function(){
+                window.location.assign('/indikators/create')
+            });
+
+            $('#tabel_indikator').DataTable({
+                processing: true,
+                serverside: true,
+                ajax:{
+                    url: `/indikators`,
+                    type: 'GET'
+                },
+                columns: [
+                    {
+                        data:'id',
+                        name: 'id'
+                    },
+                    {
+                        data:'nama_indikator',
+                        name: 'nama indikator'
+                    },
+                    {
+                        data:'ket_indikator',
+                        name: 'keterangan indikator'
+                    },
+                    {
+                        data:'users',
+                        name: 'users.username'
+                    },
+                    {
+                        data:'aksi',
+                        name: 'aksi'
+                    },
+                ],
+
+                order:[
+                    [0, 'asc']
+                ]
+            });
+        });
+
+        $(document).on('click','.btn-detail', function(){
+            let dataId = $(this).data('id');
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: 'GET',
+                url: `/indikators/${dataId}`,
+                success:function(data){
+                    window.location =`/indikators/${dataId}`
+                },
+                error: function(error){
+                    console.log(error)
+                }
+            })
+        });
+    </script>
+@endpush

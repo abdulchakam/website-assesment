@@ -10,18 +10,19 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('template/assets/images/favicon.png') }}">
-    <title>Dinas Komunikasi dan Informatika</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('template/assets/images/Favicon-diskominfo.png') }}">
+    <title>Dinas Komunikasi dan Informatika Provinsi Jawa Tengah</title>
     <!-- Custom CSS -->
     <link href="{{ asset('template/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('template/assets/extra-libs/c3/c3.min.css') }}" rel="stylesheet">
     <link href="{{ asset('template/assets/libs/chartist/dist/chartist.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('template/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
+    {{-- <link href="{{ asset('template/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" /> --}}
     <!-- Custom CSS -->
     <link href="{{ asset('template/dist/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/iziToast.min.css') }}" rel="stylesheet">
     <!-- SweetAlert -->
+    <link href="{{ asset('css/avatar.css') }}" rel="stylesheet">
 
 </head>
 
@@ -83,21 +84,40 @@
 
     {{-- ckeditor --}}
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    {{-- Select2 --}}
     <script src="{{ asset('js/select2.full.min.js') }}"></script>
 
     {{-- Sweetalert --}}
     <script src="{{ asset('js/sweetalert2.all.min.js') }}" ></script>
 
-{{-- Jquery Validate --}}
-<script src="{{ asset('js/jquery.validate.min.js') }}" ></script>
+    {{-- Jquery Validate --}}
+    <script src="{{ asset('js/jquery.validate.min.js') }}" ></script>
 
-{{-- IziToast --}}
-<script src="{{ asset('js/iziToast.min.js') }}" ></script>
+    {{-- IziToast --}}
+    <script src="{{ asset('js/iziToast.min.js') }}" ></script>
 
     <script>
         $(document).ready(function() {
             $('.select-user').select2({
                 placeholder: "Pilih User"
+            });
+        });
+
+        $('.btn-info').click(function(){
+            const dataId = $(this).data('id');
+            console.log(dataId);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: 'GET',
+                url: `/informasi-user/${dataId}`,
+                success:function(data){
+                    window.location =`/informasi-user/${dataId}`
+                },
+                error: function(error){
+                    console.log(error)
+                }
             });
         });
     </script>

@@ -11,7 +11,7 @@ class DomainController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('role:admin|super admin');
     }
     public function index()
     {
@@ -29,7 +29,7 @@ class DomainController extends Controller
     {
         $validateData = $request->validate([
             'nama_domain'       => 'required|min:8|unique:domains',
-            'ket_domain' => 'required|min:10',
+            'ket_domain'        => 'required|min:10',
         ]);
 
         Domain::create($validateData);

@@ -55,7 +55,7 @@
                             <td>
                                 <ul class="mr-auto">
                                     @foreach ($indikator->users as $user)
-                                        <li>{{ $user->name }} </li>
+                                        <li>{{ $user->instansi }} </li>
                                     @endforeach
                                 </ul>
 
@@ -102,27 +102,22 @@
             </div>
         </div>
 
+    </div>
+    <div class="card-footer">
         @role('super admin')
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="d-flex justify-content-center">
-                        <a href="{{ route('indikators.edit',['indikator' => $indikator->id]) }}" class="btn btn-sm btn-rounded btn-outline-primary mr-3 px-4">
-                            <i class="fa fa-edit"></i>
-                            Edit
-                        </a>
-                        <button class="btn btn-sm btn-rounded btn-outline-danger ml-3 px-4 btn-hapus-indikator" data-id="{{ $indikator->id }}">
-                            <i class="fa fa-trash"></i>
-                            Hapus
-                        </button>
-                    </div>
-                </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-danger radius-10 mx-2 btn-hapus-indikator" data-id="{{ $indikator->id }}" data-nama="{{ $indikator->nama_indikator }}">
+                    <i class="fa fa-trash"></i>
+                    Hapus
+                </button>
+                <button type="button" class="btn edit btn-primary radius-10 mx-2" data-id="{{ $indikator->id }}"> <i class="fas fa-edit mr-2"></i> Edit</button>
             </div>
         @endrole
     </div>
 </div>
 
 <div id="modal-petunjuk" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title font-weight-bold" id="my-modal-title">Petunjuk {{ $indikator->nama_indikator }}</h4>
@@ -140,3 +135,52 @@
     </div>
 </div>
 @endsection
+
+@push('script')
+<script>
+            // Javascript Edit User
+    $(document).on('click', '.edit', function(){
+        let dataId = $(this).data('id');
+        window.location.assign(`/indikators/${dataId}/edit`)
+    });
+    // Javascript Hapus User
+    $(document).on('click', '.btn-hapus-indikator', function () {
+        let dataId = $(this).data('id');
+        let dataNama = $(this).data('nama');
+
+        Swal.fire({
+            title: 'Anda Yakin hapus user </br>'+dataNama+'?',
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type:'DELETE',
+                    url:`/indikators/${dataId}`,
+                    success:function(){
+                        console.log('data sudah berhasil dihapus');
+                        Swal.fire(
+                            'Berhasil dihapus!',
+                            'User '+dataNama+' terhapus',
+                            'success'
+                        )
+
+                        window.location.assign('/indikators');
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        })
+    });
+    // Akhir Javascript Hapus User
+</script>
+@endpush

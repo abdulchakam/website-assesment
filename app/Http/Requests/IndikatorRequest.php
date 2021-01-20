@@ -24,11 +24,11 @@ class IndikatorRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_indikator' => 'required|unique:indikators',
+            'nama_indikator' => 'required',
             'ket_indikator'  => 'required',
             'pertanyaan'     => 'required',
-            'domain_id'         => 'required',
-            'aspek_id'          => 'required',
+            'domain_id'      => 'required',
+            'aspek_id'       => 'required',
             'level0'         => 'required',
             'level1'         => 'required',
             'level2'         => 'required',

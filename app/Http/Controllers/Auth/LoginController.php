@@ -12,7 +12,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     public function __construct()
     {
@@ -21,7 +21,15 @@ class LoginController extends Controller
 
     public function username()
     {
-        return 'username';
+        $login = request()->input('username');
+
+        if (is_numeric($login)) {
+            $field = 'nip';
+        }else{
+            $field = 'username';
+        }
+        request()->merge([$field => $login]);
+        return $field;
     }
 
     protected function authenticated(Request $request, $user)
