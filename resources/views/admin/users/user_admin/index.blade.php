@@ -106,7 +106,6 @@
         // Javascript Tambah User
         $('.btn-tambah-user').on('click', function(){
             const nip = $('#fnip').val();
-            console.log(nip);
             const url = "http://simpeg.bkd.jatengprov.go.id/webservice/identitas?nip="+nip;
 
 
@@ -181,7 +180,6 @@
                             method: 'POST',
                             dataType: 'json',
                             success: function(data){
-                                console.log(data);
                                 $('#modal-data-user').modal('hide');
                                 $("#btn-simpan").html('<i class="fas fa-save mr-2"></i>Simpan');
 

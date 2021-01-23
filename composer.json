@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5",
         "appslabke/lara-izitoast": "^1.1",
+        "barryvdh/laravel-dompdf": "^0.9.0",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
