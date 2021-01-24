@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,9 @@ Route::resource('aspeks', 'Admin\AspekController');
 Route::get('/findKetDomain', 'Admin\DomainController@findKet');
 Route::get('/findKetAspek', 'Admin\AspekController@findKet');
 Route::get('/indeks-spbe/{id}', 'Admin\AdminController@countIndeks');
+Route::get('/domain-chart/{id}', 'Admin\Admincontroller@domainChart');
+Route::get('/aspek-chart/{id}', 'Admin\Admincontroller@aspekChart');
+Route::get('/indeks-chart/{id}', 'Admin\Admincontroller@indeksChart');
 
 // User Page
 Route::resource('rekaps', 'RekapController');
@@ -44,3 +48,6 @@ Route::match(['put','patch'],'/avatar-update/{id}', 'HomeController@avatarUpdate
 Route::match(['put','patch'],'/password-update', 'HomeController@passwordUpdate')->name('password-update');
 
 Route::get('/export-excel/{id}','RekapController@export');
+Route::get('/export-pdf/{id}','RekapController@exportPDF');
+Route::get('/export-indeks-pdf','Admin\AdminController@exportPDF');
+Route::get('/export-indeks-excel','Admin\AdminController@exportExcel');

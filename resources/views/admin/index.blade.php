@@ -15,8 +15,7 @@
     <!-- Custom CSS -->
     <link href="{{ asset('template/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
     <link href="{{ asset('template/assets/extra-libs/c3/c3.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('template/assets/libs/chartist/dist/chartist.min.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('template/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" /> --}}
+
     <!-- Custom CSS -->
     <link href="{{ asset('template/dist/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
@@ -24,6 +23,8 @@
     <!-- SweetAlert -->
     <link href="{{ asset('css/avatar.css') }}" rel="stylesheet">
 
+    {{-- Chart --}}
+    <link rel="stylesheet" href="{{ asset('template/assets/libs/chart.js/dist/Chart.min.css') }}">
 </head>
 
 <body>
@@ -68,7 +69,6 @@
     <script src="{{ asset('template/assets/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <!-- apps -->
     <!-- apps -->
-    <script src="{{ asset('template/dist/js/app-style-switcher.js') }}"></script>
     <script src="{{ asset('template/dist/js/feather.min.js') }}"></script>
     <script src="{{ asset('template/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js') }}"></script>
     <script src="{{ asset('template/dist/js/sidebarmenu.js') }}"></script>
@@ -77,7 +77,7 @@
     <!--This page JavaScript -->
     <script src="{{ asset('template/assets/extra-libs/c3/d3.min.js') }}"></script>
     <script src="{{ asset('template/assets/extra-libs/c3/c3.min.js') }}"></script>
-    <script src="{{ asset('template/assets/libs/chartist/dist/chartist.min.js') }}"></script>
+
     <script src="{{ asset('template/dist/js/pages/dashboards/dashboard1.js') }}"></script>
     <script src="{{ asset('template/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/dist/js/pages/datatable/datatable-basic.init.js') }}"></script>
@@ -95,6 +95,10 @@
 
     {{-- IziToast --}}
     <script src="{{ asset('js/iziToast.min.js') }}" ></script>
+
+    {{-- Chart --}}
+    <script src="{{ asset('template/assets/libs/chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('template/assets/libs/chart.js/dist/Chart.bundle.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {

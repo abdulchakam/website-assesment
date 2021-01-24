@@ -28,9 +28,15 @@
                                             @endif
                                         </div>
                                         <div class="p-2 bd-highlight">
+                                            <a href="/export-pdf/{{ $indikator->id }}" class="btn btn-danger btn-sm radius-10 px-4">
+                                                <i class="fas fa-file-pdf mr-2"></i>
+                                                Pdf
+                                            </a>
+                                        </div>
+                                        <div class="p-2 bd-highlight">
                                             <a href="/export-excel/{{ $indikator->id }}" class="btn btn-success btn-sm radius-10 px-4">
                                                 <i class="fas fa-file-excel mr-2"></i>
-                                                Cetak
+                                                Excel
                                             </a>
                                         </div>
                                     @endif

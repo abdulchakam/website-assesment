@@ -10,6 +10,7 @@ use App\Rekap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Barryvdh\DomPDF\PDF;
 
 class RekapController extends Controller
 {
@@ -232,5 +233,15 @@ class RekapController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new IndikatorExport($request->id), 'Indikator.xlsx');
+    }
+
+    public function exportPDF($id)
+    {
+        $data_indikator = Indikator::where('id', [$id])->first();
+        $data_rekap = Rekap::where('indikator_id', [$id])->get();
+
+        $pdf = PDF::loadview('admin.export.indikatorPDF',['indikators' => [$data_indikator], 'rekap' => $data_rekap])->setPaper('A4','landscape');
+        return $pdf->stream();
+
     }
 }
