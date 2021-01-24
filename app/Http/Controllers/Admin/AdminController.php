@@ -9,7 +9,7 @@ use App\Http\Controllers\Exports\IndeksExport;
 use App\Indikator;
 use App\Rekap;
 use App\User;
-use PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
